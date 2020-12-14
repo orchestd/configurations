@@ -1,7 +1,7 @@
 package confgetter
 
 import (
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/config"
+	"bitbucket.org/HeilaSystems/configurations/config"
 	"container/list"
 	"fmt"
 )

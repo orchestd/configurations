@@ -1,8 +1,8 @@
 package credentialsgetter
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/credentialsgetter/repos/enviromentVariables"
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/credentials"
+	"bitbucket.org/HeilaSystems/configurations/credentials/credentialsgetter/repos/enviromentVariables"
+	"bitbucket.org/HeilaSystems/configurations/credentials"
 	"container/list"
 )
 

@@ -1,14 +1,12 @@
 package confgetter
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/confgetter/repos/arguments"
-	"bitbucket.org/HeilaSystems/configurations/confgetter/repos/enviromentVariables"
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/config"
-	"reflect"
-
-	//"bytes"
+	"bitbucket.org/HeilaSystems/configurations/config"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/arguments"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/enviromentVariables"
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
 )
 

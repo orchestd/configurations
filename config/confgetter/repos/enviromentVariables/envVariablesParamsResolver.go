@@ -1,7 +1,7 @@
 package enviromentVariables
 
 import (
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/config"
+	"bitbucket.org/HeilaSystems/configurations/config"
 	"os"
 	"strings"
 )

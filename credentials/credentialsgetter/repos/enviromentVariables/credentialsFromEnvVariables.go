@@ -1,7 +1,7 @@
 package enviromentVariables
 
 import (
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/credentials"
+	"bitbucket.org/HeilaSystems/configurations/credentials"
 	"github.com/kelseyhightower/envconfig"
 )
 
