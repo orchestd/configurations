@@ -2,7 +2,6 @@ package enviromentVariables
 
 import (
 	"bitbucket.org/HeilaSystems/configurations/credentials"
-	"fmt"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -15,7 +14,6 @@ func NewCredentialsFromEnvVariables() (credentials.CredentialsGetter,error) {
 	if err := envconfig.Process("CREDS", &creds);err != nil{
 		return nil, err
 	}
-	fmt.Println(creds)
 	return &creds, nil
 }
 
