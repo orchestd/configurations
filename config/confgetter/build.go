@@ -59,7 +59,7 @@ func (cr *defaultConfReaderBuilder) Build() (config.Config, error) {
 	} else if confreaderCfg.Resolver == nil {
 		return nil, fmt.Errorf("cannot initalize configurations without repo")
 	}
-	return ReadConf(confreaderCfg.Conf,confreaderCfg.Resolver)
+	return ReadConf(confreaderCfg.Conf,confreaderCfg.Resolver,*confreaderCfg.Env)
 }
 
 var _ config.Builder = (*defaultConfReaderBuilder)(nil)

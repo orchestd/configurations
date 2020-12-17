@@ -4,13 +4,14 @@ import (
 	"bitbucket.org/HeilaSystems/configurations/config"
 	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/arguments"
 	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/enviromentVariables"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/files"
 	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
 )
 
-func ReadConf(conf interface{}, resolver config.ConfParamsResolver) (config.Config, error) {
+func ReadConf(conf interface{}, resolver config.ConfParamsResolver,env string) (config.Config, error) {
 
 	argsResolver := arguments.NewArgsParamsResolver()
 	argsParams := argsResolver.ResolveParams()
@@ -19,8 +20,18 @@ func ReadConf(conf interface{}, resolver config.ConfParamsResolver) (config.Conf
 	envParams := envResolver.ResolveParams()
 
 	params := mergeMainAndSecondaryConfParams(argsParams, envParams)
+
+	fileResolver  := files.NewConfFileParamsResolver(env)
+	filesParams := fileResolver.ResolveParams()
+	if filesParams != nil {
+		params = mergeMainAndSecondaryConfParams(params, filesParams)
+	}
+
 	if resolver == nil {
-		params = mergeMainAndSecondaryConfParams(params, resolver.ResolveParams())
+		resolverParams := resolver.ResolveParams()
+		if resolverParams != nil {
+			params = mergeMainAndSecondaryConfParams(params, resolverParams)
+		}
 	}
 	unresolvedParams, filteredParams := getAllUnresolvedParams(conf, params)
 	if len(unresolvedParams) > 0 {
@@ -43,11 +54,22 @@ func mergeMainAndSecondaryConfParams(mainConfParams config.ConfParams, secondary
 	return mergedConfParams
 }
 func getAllUnresolvedParams(conf interface{}, params config.ConfParams) ([]string, ConfGetter) {
-	confValue := reflect.ValueOf(conf)
-	typeOfS := confValue.Type()
+	val := reflect.ValueOf(conf) // could be any underlying type
+
+	// if its a pointer, resolve its value
+	if val.Kind() == reflect.Ptr {
+		val = reflect.Indirect(val)
+	}
+
+	if val.Kind() != reflect.Struct {
+		panic("Configuration must be a struct")
+	}
+
+	typeOfS := val.Type()
+
 	confMap := make(ConfGetter)
 	var unsolvedParams []string
-	for i := 0; i < confValue.NumField(); i++ {
+	for i := 0; i < typeOfS.NumField(); i++ {
 		var keyName string
 		keyName = typeOfS.Field(i).Tag.Get("json")
 		if len(keyName) == 0 {

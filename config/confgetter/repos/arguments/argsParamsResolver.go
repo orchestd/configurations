@@ -1,4 +1,4 @@
-package arguments
+ package arguments
 
 import (
 	"bitbucket.org/HeilaSystems/configurations/config"
