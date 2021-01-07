@@ -65,11 +65,20 @@ func getAllUnresolvedParams(conf interface{}, params config.ConfParams) ([]strin
 		panic("Configuration must be a struct")
 	}
 
-	typeOfS := val.Type()
 
 	confMap := make(ConfGetter)
 	var unsolvedParams []string
+	CollectUnresolvedParams(val,params,confMap,unsolvedParams)
+	return unsolvedParams, confMap
+}
+
+func CollectUnresolvedParams(val reflect.Value , params config.ConfParams ,confMap ConfGetter , unsolvedParams []string) {
+	typeOfS := val.Type()
 	for i := 0; i < typeOfS.NumField(); i++ {
+		if val.Field(i).Kind() == reflect.Struct {
+			CollectUnresolvedParams(val.Field(i) ,params,confMap,unsolvedParams )
+			continue;
+		}
 		var keyName string
 		keyName = typeOfS.Field(i).Tag.Get("json")
 		if len(keyName) == 0 {
@@ -81,7 +90,6 @@ func getAllUnresolvedParams(conf interface{}, params config.ConfParams) ([]strin
 			confMap[keyName] = val
 		}
 	}
-	return unsolvedParams, confMap
 }
 
 type ConfGetter map[string]interface{}
