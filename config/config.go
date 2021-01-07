@@ -1,7 +1,6 @@
 package config
 
 import (
-	"context"
 	"time"
 )
 
@@ -76,9 +75,7 @@ type Builder interface {
 	SetRepo(resolver ConfParamsResolver) Builder
 	Build() (Config, error)
 }
-type CacheFunctions interface {
-	GetById(c context.Context, collectionName string, id interface{}, dest interface{}) error
-}
+
 type ConfParamsResolver interface {
 	ResolveParams() ConfParams
 }
