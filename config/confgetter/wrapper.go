@@ -22,8 +22,6 @@ func (v *confgetterWrapper) Implementation() interface{} {
 	return v.instance
 }
 
-const keyNotFound = "keyNotFound"
-
 type valueWrapper struct {
 	key string
 	*confgetterWrapper
@@ -37,7 +35,7 @@ func (v *valueWrapper) IsSet() bool {
 func (v *valueWrapper) Raw() (interface{},error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return nil,fmt.Errorf(keyNotFound)
+		return nil,KeyNotFoundError(v.key)
 	}
 	return val,nil
 }
@@ -45,140 +43,212 @@ func (v *valueWrapper) Raw() (interface{},error) {
 func (v *valueWrapper) Bool() (bool,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return false,fmt.Errorf(keyNotFound)
+		return false,KeyNotFoundError(v.key)
 	}
-	return cast.ToBoolE(val)
+	if res, err := cast.ToBoolE(val); err != nil {
+		return false, CastingError(err, v.key, val, "bool")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Int() (int,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToIntE(val)
+	if res, err := cast.ToIntE(val); err != nil {
+		return 0, CastingError(err, v.key, val, "int")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Int32() (int32,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToInt32E(val)
+	if res, err := cast.ToInt32E(val); err != nil {
+		return 0, CastingError(err, v.key, val, "int32")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Int64() (int64,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToInt64E(val)
+	if res, err := cast.ToInt64E(val); err != nil {
+		return 0, CastingError(err, v.key, val, "int64")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Uint() (uint,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToUintE(val)
+	if res, err := cast.ToUintE(val); err != nil {
+		return 0, CastingError(err, v.key, val, "uint")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Uint32() (uint32,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToUint32E(val)
+	if res, err := cast.ToUint32E(val); err != nil {
+		return 0, CastingError(err, v.key, val, "uint32")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Uint64() (uint64,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToUint64E(val)
+	if res, err := cast.ToUint64E(val); err != nil {
+		return 0, CastingError(err, v.key, val, "uint64")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Float64() (float64,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0,fmt.Errorf(keyNotFound)
+		return 0,KeyNotFoundError(v.key)
 	}
-	return cast.ToFloat64E(val)
+	if res, err := cast.ToFloat64E(val); err != nil {
+		return 0, CastingError(err, v.key, val, "float64")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Time() (time.Time,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return time.Time{} ,fmt.Errorf(keyNotFound)
+		return time.Time{} ,KeyNotFoundError(v.key)
 	}
-	return cast.ToTimeE(val)
+	if res, err := cast.ToTimeE(val); err != nil {
+		return time.Time{}, CastingError(err, v.key, val, "time.Time")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) Duration() (time.Duration,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return 0 ,fmt.Errorf(keyNotFound)
+		return 0 ,KeyNotFoundError(v.key)
 	}
-	return cast.ToDurationE(val)
+	if res, err := cast.ToDurationE(val); err != nil {
+		return 0, CastingError(err, v.key, val, "time.Duration")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) String() (string,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return "" ,fmt.Errorf(keyNotFound)
+		return "" ,KeyNotFoundError(v.key)
 	}
-	return cast.ToStringE(val)
+	if res, err := cast.ToStringE(val); err != nil {
+		return "", CastingError(err, v.key, val, "string")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) IntSlice() ([]int,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return nil ,fmt.Errorf(keyNotFound)
+		return nil ,KeyNotFoundError(v.key)
 	}
-	return cast.ToIntSliceE(val)
+	if res, err := cast.ToIntSliceE(val); err != nil {
+		return nil, CastingError(err, v.key, val, "[]int")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) StringSlice() ([]string,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return nil ,fmt.Errorf(keyNotFound)
+		return nil ,KeyNotFoundError(v.key)
 	}
-	return cast.ToStringSliceE(val)
+	if res, err := cast.ToStringSliceE(val); err != nil {
+		return nil, CastingError(err, v.key, val, "[]string")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) StringMap() (map[string]interface{},error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return nil ,fmt.Errorf(keyNotFound)
+		return nil ,KeyNotFoundError(v.key)
 	}
-	return cast.ToStringMapE(val)
+	if res, err := cast.ToStringMapE(val); err != nil {
+		return nil, CastingError(err, v.key, val, "map[string]interface{}")
+	} else {
+		return res, nil
+	}
 }
 
 func (v *valueWrapper) StringMapString() (map[string]string,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return nil ,fmt.Errorf(keyNotFound)
+		return nil ,KeyNotFoundError(v.key)
 	}
-	return cast.ToStringMapStringE(val)
+	if res , err := cast.ToStringMapStringE(val);err != nil {
+		return nil, CastingError(err,v.key,val,"map[string]string")
+	}else {
+		return res		, nil
+	}
 }
 
 func (v *valueWrapper) StringMapStringSlice() (map[string][]string,error) {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return nil ,fmt.Errorf(keyNotFound)
+		return nil ,KeyNotFoundError(v.key)
 	}
-	return cast.ToStringMapStringSliceE(val)
+	if res , err := cast.ToStringMapStringSliceE(val);err != nil {
+		return nil, CastingError(err,v.key,val,"map[string][]string")
+	}else {
+		return res		, nil
+	}
 }
 
 // Unmarshal uses default decoder options, if you need some special behavior than it's best to get cfg.Implementation() and use it from there
 func (v *valueWrapper) Unmarshal(result interface{}) error {
 	val, ok := v.instance[v.key]
 	if !ok {
-		return fmt.Errorf(keyNotFound)
+		return KeyNotFoundError(v.key)
 	}
 	if byteArray , err := json.Marshal(val);err != nil{
 		return err
 	}else {
 		return json.Unmarshal(byteArray,&result)
 	}
+}
+
+func CastingError(err error, key string ,rawVal interface{},confType string ) error {
+	return fmt.Errorf(`Cannot parse %s with value "%v" into %s. %v`, key ,rawVal ,confType, err)
+}
+
+func KeyNotFoundError(key string)error {
+	return fmt.Errorf("key %s not found in configuration",key)
 }
