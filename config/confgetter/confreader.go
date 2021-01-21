@@ -95,22 +95,3 @@ func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMa
 }
 
 type ConfGetter map[string]interface{}
-
-//func getWrongTypeParams(conf interface{}, wrapper confgetterWrapper) ([]string, ConfGetter) {
-//	val := reflect.ValueOf(conf) // could be any underlying type
-//
-//	// if its a pointer, resolve its value
-//	if val.Kind() == reflect.Ptr {
-//		val = reflect.Indirect(val)
-//	}
-//
-//	if val.Kind() != reflect.Struct {
-//		panic("Configuration must be a struct")
-//	}
-//
-//
-//	confMap := make(ConfGetter)
-//	var unsolvedParams []string
-//	CollectUnresolvedParams(val,params,confMap,unsolvedParams)
-//	return unsolvedParams, confMap
-//}
