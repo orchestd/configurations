@@ -1,7 +1,8 @@
 package credentials
 
 type Builder interface {
-	DevMode() Builder
+	UseGcpSecretManager(projectId string) Builder
+	SetSecretManagerVersion(version string) Builder
 	Build() (CredentialsGetter, error)
 }
 
@@ -10,8 +11,8 @@ type CredentialsGetter interface {
 	Implementation() interface{}
 }
 type Credentials struct {
-	DbUsername string `envconfig:"DB_USERNAME" required:"true"`
-	DbPassword string `envconfig:"DB_PASSWORD" required:"true"`
-	DbHost     string `envconfig:"DB_HOST" required:"true"`
-	DbName     string `envconfig:"DB_NAME" required:"true"`
+	DbUsername string `envconfig:"DB_USERNAME" required:"true" json:"DB_USERNAME"`
+	DbPassword string `envconfig:"DB_PASSWORD" required:"true" json:"DB_PASSWORD"`
+	DbHost     string `envconfig:"DB_HOST" required:"true" json:"DB_HOST"`
+	DbName     string `envconfig:"DB_NAME" required:"true" json:"DB_NAME"`
 }
