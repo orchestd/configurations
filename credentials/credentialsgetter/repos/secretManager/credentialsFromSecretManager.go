@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/pkg/errors"
+	"golang.org/x/sync/errgroup"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
 	"reflect"
 	"strings"
@@ -30,13 +31,21 @@ func NewCredentialsFromSecretManager(projectId, version string) (credentials.Cre
 		return nil, errors.Wrap(err, "failed to setup client")
 	}
 	credsValuesMap := make(map[string]string)
+	var g errgroup.Group
 	for k := range neededCreds {
-		scrt, err := getSecretValue(projectId, k, version, c, client)
-		if err != nil {
-			return nil, err
-		}
-		credsValuesMap[k] = scrt
+		localScopeK := k
+		g.Go(func() error {
+			scrt, err := getSecretValue(projectId, localScopeK, version, c, client)
+			if err == nil {
+				credsValuesMap[localScopeK] = scrt
+			}
+			return err
+		})
 	}
+	if err := g.Wait(); err != nil {
+		return nil, err
+	}
+
 	if credsJson  , err := json.Marshal(credsValuesMap);err != nil {
 		return nil, err
 	}else if err := json.Unmarshal(credsJson , &creds);err != nil {
@@ -70,6 +79,7 @@ func getSecretNamesByTag(tag string, s interface{}) map[string]struct{} {
 }
 
 func getSecretValue(projectId, secretName string, version string, c context.Context, client *secretmanager.Client) (string, error) {
+
 	accessRequest := &secretmanagerpb.AccessSecretVersionRequest{
 		Name: fmt.Sprintf("projects/%v/secrets/%v/versions/%v", projectId, secretName, version),
 	}
