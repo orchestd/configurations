@@ -47,8 +47,9 @@ type wrongType struct {
 func mergeMainAndSecondaryConfParams(mainConfParams config.ConfParams, secondaryConfParams config.ConfParams) config.ConfParams {
 	mergedConfParams := mainConfParams
 	for key, val := range secondaryConfParams {
-		if _, ok := mergedConfParams[key]; !ok {
-			mergedConfParams[key] = val
+		lowerkey:= strings.ToLower(key)
+		if _, ok := mergedConfParams[lowerkey]; !ok {
+			mergedConfParams[lowerkey] = val
 		}
 	}
 	return mergedConfParams
@@ -80,10 +81,10 @@ func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMa
 			continue
 		}
 		var keyName string
-		keyName = typeOfS.Field(i).Tag.Get("json")
+		keyName = strings.ToLower(typeOfS.Field(i).Tag.Get("json"))
 		typeName := val.Field(i).Kind().String()
 		if len(keyName) == 0 {
-			keyName = typeOfS.Field(i).Name
+			keyName = strings.ToLower(typeOfS.Field(i).Name)
 		}
 		if val, ok := params[keyName]; !ok {
 			unsolvedParams = append(unsolvedParams, keyName)

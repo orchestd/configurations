@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/spf13/cast"
+	"strings"
 	"time"
 )
 
@@ -13,7 +14,7 @@ type confgetterWrapper struct {
 }
 func (v *confgetterWrapper) Get(key string) config.Value {
 	return &valueWrapper{
-		key:               key,
+		key:               strings.ToLower(key),
 		confgetterWrapper: v,
 	}
 }
