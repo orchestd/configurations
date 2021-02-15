@@ -2,6 +2,7 @@ package enviromentVariables
 
 import (
 	"bitbucket.org/HeilaSystems/configurations/config"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
 	"os"
 	"strings"
 )
@@ -16,7 +17,7 @@ func NewEnvVariablesParamsResolver() config.ConfParamsResolver {
 
 func (e *envVariablesParamsResolver) ResolveParams() config.ConfParams {
 	e.resolveFromEnvVariables()
-	return e.params
+	return utils.MapToLowercaseMapToLowercase(e.params)
 }
 
 func (e *envVariablesParamsResolver) resolveFromEnvVariables()  {

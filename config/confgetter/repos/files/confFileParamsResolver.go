@@ -2,6 +2,7 @@ package files
 
 import (
 	"bitbucket.org/HeilaSystems/configurations/config"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -36,7 +37,7 @@ func (resolver *ConfFileParamsResolver) ResolveParams() config.ConfParams {
 		_ = resolver.resolveFromFile(dir + "/" + serviceConf)
 
 	}
-	return resolver.params
+	return utils.MapToLowercaseMapToLowercase(resolver.params)
 }
 
 func (resolver *ConfFileParamsResolver) resolveFromFile(filePath string) bool {

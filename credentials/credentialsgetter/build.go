@@ -3,20 +3,31 @@ package credentialsgetter
 import (
 	"bitbucket.org/HeilaSystems/configurations/credentials/credentialsgetter/repos/enviromentVariables"
 	"bitbucket.org/HeilaSystems/configurations/credentials"
+	"bitbucket.org/HeilaSystems/configurations/credentials/credentialsgetter/repos/secretManager"
 	"container/list"
+	"fmt"
 )
 
 type credentialsConfig struct {
-	devMode bool
+	useSecretManager bool
+	projectId string
+	overrideVersion string
 }
 
 type defaultCredentialsConfigBuilder struct {
 	ll *list.List
 }
 
-func (cr *defaultCredentialsConfigBuilder) DevMode() credentials.Builder {
+func (cr *defaultCredentialsConfigBuilder) UseGcpSecretManager(projectId string) credentials.Builder {
 	cr.ll.PushBack(func(cfg *credentialsConfig) {
-		cfg.devMode = true
+		cfg.useSecretManager = true
+		cfg.projectId = projectId
+	})
+	return cr
+}
+func (cr *defaultCredentialsConfigBuilder) SetSecretManagerVersion(version string) credentials.Builder {
+	cr.ll.PushBack(func(cfg *credentialsConfig) {
+		cfg.overrideVersion = version
 	})
 	return cr
 }
@@ -28,10 +39,12 @@ func (cr *defaultCredentialsConfigBuilder) Build() (credentials.CredentialsGette
 		f(credsCnf)
 	}
 
-	if credsCnf.devMode {
+	if !credsCnf.useSecretManager {
 		return enviromentVariables.NewCredentialsFromEnvVariables()
+	} else if len(credsCnf.projectId) == 0{
+		return nil,fmt.Errorf("Cannot initialize secret manager as credentials repo without PROJECT_ID ")
 	} else {
-		return enviromentVariables.NewCredentialsFromEnvVariables()
+		return secretManager.NewCredentialsFromSecretManager(credsCnf.projectId , credsCnf.overrideVersion)
 	}
 }
 

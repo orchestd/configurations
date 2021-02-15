@@ -2,6 +2,7 @@
 
 import (
 	"bitbucket.org/HeilaSystems/configurations/config"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
 	"os"
 	"strings"
 )
@@ -16,7 +17,7 @@ func NewArgsParamsResolver() config.ConfParamsResolver {
 
 func (e *argsParamsResolver) ResolveParams() config.ConfParams {
 	e.resolveFromOsArgs()
-	return e.params
+	return utils.MapToLowercaseMapToLowercase(e.params)
 }
 
 func (e *argsParamsResolver) resolveFromOsArgs()  {
