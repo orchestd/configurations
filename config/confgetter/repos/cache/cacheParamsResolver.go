@@ -2,6 +2,7 @@ package cache
 
 import (
 	"bitbucket.org/HeilaSystems/configurations/config"
+	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
 	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/cache"
 	"context"
 )
@@ -29,5 +30,8 @@ func (e *cacheVariablesParamsResolver) resolveFromCacheVariables() config.ConfPa
 	if err := e.cache.GetById(context.Background(),"configurations",e.version,e.serviceName+"-"+e.env,&e.params);err != nil {
 		panic(err)
 	}
-	return e.params
+
+	return utils.MapToLowercaseMapToLowercase(e.params)
 }
+
+

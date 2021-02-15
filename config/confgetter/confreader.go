@@ -40,16 +40,12 @@ func ReadConf(conf interface{}, resolver config.ConfParamsResolver, env string) 
 	return wrapper, nil
 }
 
-type wrongType struct {
-	key string
-	
-}
+
 func mergeMainAndSecondaryConfParams(mainConfParams config.ConfParams, secondaryConfParams config.ConfParams) config.ConfParams {
 	mergedConfParams := mainConfParams
 	for key, val := range secondaryConfParams {
-		lowerkey:= strings.ToLower(key)
-		if _, ok := mergedConfParams[lowerkey]; !ok {
-			mergedConfParams[lowerkey] = val
+		if _, ok := mergedConfParams[key]; !ok {
+			mergedConfParams[key] = val
 		}
 	}
 	return mergedConfParams
