@@ -20,11 +20,10 @@ func (e *envVariablesParamsResolver) ResolveParams() config.ConfParams {
 	return utils.MapToLowercaseMapToLowercase(e.params)
 }
 
-func (e *envVariablesParamsResolver) resolveFromEnvVariables()  {
+func (e *envVariablesParamsResolver) resolveFromEnvVariables() {
 	envlist := os.Environ()
 	for _, element := range envlist {
-		splittedEnv := strings.SplitN(element,"=" ,2)
-		if len(splittedEnv) == 2 {
+		if splittedEnv := strings.SplitN(element, "=", 2); len(splittedEnv) == 2 {
 			e.params[splittedEnv[0]] = splittedEnv[1]
 		}
 	}
