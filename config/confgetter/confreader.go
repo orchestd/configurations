@@ -82,6 +82,10 @@ func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMa
 		if len(keyName) == 0 {
 			keyName = strings.ToLower(typeOfS.Field(i).Name)
 		}
+		keyNameArr := strings.Split(keyName,",")
+		if len(keyNameArr) >1 {
+			keyName = keyNameArr[0]
+		}
 		if val, ok := params[keyName]; !ok {
 			unsolvedParams = append(unsolvedParams, keyName)
 		} else {

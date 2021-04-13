@@ -3,6 +3,7 @@ package enviromentVariables
 import (
 	"bitbucket.org/HeilaSystems/configurations/config"
 	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -23,9 +24,12 @@ func (e *envVariablesParamsResolver) ResolveParams() config.ConfParams {
 func (e *envVariablesParamsResolver) resolveFromEnvVariables()  {
 	envlist := os.Environ()
 	for _, element := range envlist {
-		variable := strings.Split(element, "=")
-		if len(variable) == 2 {
-			e.params[variable[0]] = variable[1]
+		splittedEnv := strings.SplitN(element,"=" ,2)
+		if splittedEnv[0] == "DB_HOST"{
+			fmt.Print("stop")
+		}
+		if len(splittedEnv) == 2 {
+			e.params[splittedEnv[0]] = splittedEnv[1]
 		}
 	}
 }
