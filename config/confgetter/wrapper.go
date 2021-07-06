@@ -9,6 +9,12 @@ import (
 	"time"
 )
 
+func NewConfgetterWrapper(instance map[string]interface{}) confgetterWrapper {
+	return confgetterWrapper{
+		instance: instance,
+	}
+}
+
 type confgetterWrapper struct {
 	instance ConfGetter
 }
