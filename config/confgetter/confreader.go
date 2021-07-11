@@ -40,7 +40,6 @@ func ReadConf(conf interface{}, resolver config.ConfParamsResolver, env string) 
 	return wrapper, nil
 }
 
-
 func mergeMainAndSecondaryConfParams(mainConfParams config.ConfParams, secondaryConfParams config.ConfParams) config.ConfParams {
 	mergedConfParams := mainConfParams
 	for key, val := range secondaryConfParams {
@@ -63,17 +62,17 @@ func getAllUnresolvedParams(conf interface{}, params config.ConfParams) ([]strin
 	}
 
 	confMap := make(ConfGetter)
-	var unsolvedParams []string
 	typeList := make(map[string]string)
-	CollectUnresolvedParams(val, params, confMap, unsolvedParams, typeList)
+	unsolvedParams := CollectUnresolvedParams(val, params, confMap, typeList)
 	return unsolvedParams, confMap, typeList
 }
 
-func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMap ConfGetter, unsolvedParams []string, typeList map[string]string) {
+func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMap ConfGetter, typeList map[string]string) []string {
 	typeOfS := val.Type()
+	var unsolvedParams []string
 	for i := 0; i < typeOfS.NumField(); i++ {
 		if val.Field(i).Kind() == reflect.Struct {
-			CollectUnresolvedParams(val.Field(i), params, confMap, unsolvedParams, typeList)
+			unsolvedParams = append(unsolvedParams, CollectUnresolvedParams(val.Field(i), params, confMap, typeList)...)
 			continue
 		}
 		var keyName string
@@ -82,17 +81,24 @@ func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMa
 		if len(keyName) == 0 {
 			keyName = strings.ToLower(typeOfS.Field(i).Name)
 		}
-		if keyNameArr := strings.Split(keyName,","); len(keyNameArr) >1{
+		var skip bool
+		if keyNameArr := strings.Split(keyName, ","); len(keyNameArr) > 1 {
 			keyName = keyNameArr[0]
+			if len(keyNameArr)>= 2 && keyNameArr[1] == "omitempty"  {
+				skip = true
+			}
 
 		}
 		if val, ok := params[keyName]; !ok {
-			unsolvedParams = append(unsolvedParams, keyName)
+			if !skip{
+				unsolvedParams = append(unsolvedParams, keyName)
+			}
 		} else {
 			confMap[keyName] = val
 			typeList[keyName] = typeName
 		}
 	}
+	return unsolvedParams
 }
 
 type ConfGetter map[string]interface{}
