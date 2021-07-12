@@ -3,7 +3,7 @@ module bitbucket.org/HeilaSystems/configurations
 go 1.14
 
 require (
-	bitbucket.org/HeilaSystems/dependencybundler v0.0.30
+	bitbucket.org/HeilaSystems/dependencybundler v0.7.2
 	cloud.google.com/go v0.65.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/pkg/errors v0.9.1
