@@ -10,9 +10,10 @@ type CredentialsGetter interface {
 	GetCredentials() Credentials
 	Implementation() interface{}
 }
+
 type Credentials struct {
-	DbUsername string `envconfig:"DB_USERNAME" required:"true" json:"DB_USERNAME"`
-	DbPassword string `envconfig:"DB_PASSWORD" required:"true" json:"DB_PASSWORD"`
-	DbHost     string `envconfig:"DB_HOST" required:"true" json:"DB_HOST"`
-	DbName     string `envconfig:"DB_NAME" required:"true" json:"DB_NAME"`
+	MySqlConnection string `envconfig:"MYSQL_CON" required:"true" json:"MYSQL_CON"`
+	MySqlDbName     string `envconfig:"MYSQL_DB_NAME" required:"true" json:"MYSQL_DB_NAME"`
+	MongoConnection string `envconfig:"MONGO_CON" required:"true" json:"MONGO_CON"`
+	MongoDbName     string `envconfig:"MONGO_DB_NAME" required:"true" json:"MONGO_DB_NAME"`
 }
