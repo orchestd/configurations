@@ -56,9 +56,9 @@ func (cr *defaultConfReaderBuilder) Build() (config.Config, error) {
 		return nil, fmt.Errorf("cannot initalize configurations without env settings")
 	}else if confreaderCfg.ServiceName == nil {
 		return nil, fmt.Errorf("cannot initalize configurations without service name")
-	} else if confreaderCfg.Resolver == nil {
+	} /*else if confreaderCfg.Resolver == nil {
 		return nil, fmt.Errorf("cannot initalize configurations without repo")
-	}
+	}*/
 	return ReadConf(confreaderCfg.Conf,confreaderCfg.Resolver,*confreaderCfg.Env)
 }
 
