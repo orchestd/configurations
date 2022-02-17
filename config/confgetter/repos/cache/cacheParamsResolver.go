@@ -1,13 +1,6 @@
 package cache
 
-import (
-	"bitbucket.org/HeilaSystems/configurations/config"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
-	"bitbucket.org/HeilaSystems/dependencybundler/interfaces/cache"
-	"context"
-)
-
-type cacheVariablesParamsResolver struct {
+/*type cacheVariablesParamsResolver struct {
 	serviceName string
 	env string
 	version string
@@ -18,8 +11,6 @@ type cacheVariablesParamsResolver struct {
 func NewCacheVariablesParamsResolver(serviceName string, env string, version string,cache cache.CacheStorageGetter) *cacheVariablesParamsResolver {
 	return &cacheVariablesParamsResolver{serviceName: serviceName, env: env,version: version,cache: cache,params: config.ConfParams{}}
 }
-
-
 
 func (e *cacheVariablesParamsResolver) ResolveParams() config.ConfParams {
 	e.resolveFromCacheVariables()
@@ -33,5 +24,4 @@ func (e *cacheVariablesParamsResolver) resolveFromCacheVariables() config.ConfPa
 
 	return utils.MapToLowercaseMapToLowercase(e.params)
 }
-
-
+*/

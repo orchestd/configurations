@@ -10,9 +10,8 @@ type CredentialsGetter interface {
 	GetCredentials() Credentials
 	Implementation() interface{}
 }
+
 type Credentials struct {
-	DbUsername string `envconfig:"DB_USERNAME" required:"true" json:"DB_USERNAME"`
-	DbPassword string `envconfig:"DB_PASSWORD" required:"true" json:"DB_PASSWORD"`
-	DbHost     string `envconfig:"DB_HOST" required:"true" json:"DB_HOST"`
-	DbName     string `envconfig:"DB_NAME" required:"true" json:"DB_NAME"`
+	SqlConnectionString   string `envconfig:"SQL_CON_STR" json:"SQL_CON_STR"`
+	CacheConnectionString string `envconfig:"CACHE_CON_STR" json:"CACHE_CON_STR"`
 }

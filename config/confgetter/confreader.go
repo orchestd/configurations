@@ -26,12 +26,12 @@ func ReadConf(conf interface{}, resolver config.ConfParamsResolver, env string) 
 		params = mergeMainAndSecondaryConfParams(params, filesParams)
 	}
 
-	if resolver == nil {
+	/*if resolver == nil {
 		resolverParams := resolver.ResolveParams()
 		if resolverParams != nil {
 			params = mergeMainAndSecondaryConfParams(params, resolverParams)
 		}
-	}
+	}*/
 	unresolvedParams, filteredParams, _ := getAllUnresolvedParams(conf, params)
 	if len(unresolvedParams) > 0 {
 		panic(fmt.Errorf("found unresolved params in configuration file: " + strings.Join(unresolvedParams, ",")))
