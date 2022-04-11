@@ -12,6 +12,9 @@ type CredentialsGetter interface {
 }
 
 type Credentials struct {
-	SqlConnectionString   string `envconfig:"SQL_CON_STR" json:"SQL_CON_STR"`
-	CacheConnectionString string `envconfig:"CACHE_CON_STR" json:"CACHE_CON_STR"`
+	CacheUserName string `envconfig:"CACHE_USER_NAME" json:"CACHE_USER_NAME"`
+	CacheUserPw  string `envconfig:"CACHE_USER_PW" json:"CACHE_USER_PW"`
+
+	SqlUserName string `envconfig:"SQL_USER_NAME" json:"SQL_USER_NAME"`
+	SqlUserPw  string `envconfig:"SQL_USER_PW" json:"SQL_USER_PW"`
 }
