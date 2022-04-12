@@ -19,7 +19,8 @@ type Credentials struct {
 	SqlUserPw   string `envconfig:"SQL_USER_PW" json:"SQL_USER_PW"`
 
 	NatsUser   string `envconfig:"NatsUser" json:"NatsUser"`
-	NatsPsw    string `envconfig:"NatsPsw" json:"NatsPsw"`
+	NatsPw    string `envconfig:"NatsPw" json:"NatsPw"`
+
 	EncryptKey string `envconfig:"encrypt_key" json:"encrypt_key"`
 	JwtSecret  string `envconfig:"jwt_secret" json:"jwt_secret"`
 }
