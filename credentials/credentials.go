@@ -3,6 +3,7 @@ package credentials
 type Builder interface {
 	UseGcpSecretManager(projectId string) Builder
 	SetSecretManagerVersion(version string) Builder
+	SetSecretName(name string) Builder
 	Build() (CredentialsGetter, error)
 }
 

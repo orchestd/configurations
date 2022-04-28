@@ -17,12 +17,12 @@ type credentialsFromSecretManager struct {
 	credentials.Credentials
 }
 
-func NewCredentialsFromSecretManager(projectId, version string) (credentials.CredentialsGetter, error) {
+func NewCredentialsFromSecretManager(projectId, version, secretName string) (credentials.CredentialsGetter, error) {
 	if len(version) == 0 {
 		version = "latest"
 	}
 	creds := credentials.Credentials{}
-	neededCreds := getSecretNamesByTag("envconfig", creds)
+	//neededCreds := getSecretNamesByTag("envconfig", creds)
 
 	c := context.Background()
 	// Create the client.
@@ -32,16 +32,18 @@ func NewCredentialsFromSecretManager(projectId, version string) (credentials.Cre
 	}
 	credsValuesMap := make(map[string]string)
 	var g errgroup.Group
-	for k := range neededCreds {
-		localScopeK := k
-		g.Go(func() error {
-			scrt, err := getSecretValue(projectId, localScopeK, version, c, client)
-			if err == nil {
-				credsValuesMap[localScopeK] = scrt
-			}
+	g.Go(func() error {
+		scrt, err := getSecretValue(projectId, secretName, version, c, client)
+		if err != nil {
 			return err
-		})
-	}
+		}
+		err = json.Unmarshal([]byte(scrt), &credsValuesMap)
+		if err != nil{
+			return err
+		}
+		return nil
+	})
+
 	if err := g.Wait(); err != nil {
 		return nil, err
 	}
