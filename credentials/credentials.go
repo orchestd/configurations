@@ -26,4 +26,7 @@ type Credentials struct {
 	JwtSecret  string `envconfig:"JWT_SECRET" json:"JWT_SECRET"`
 
 	MessagesProviders string `envconfig:"MESSAGES_PROVIDERS" json:"MESSAGES_PROVIDERS"`
+
+	MapaLoginName string `envconfig:"MAPA_LOGIN_NAME" json:"MAPA_LOGIN_NAME"`
+	MapaToken     string `envconfig:"MAPA_TOKEN" json:"MAPA_TOKEN"`
 }
