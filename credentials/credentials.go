@@ -26,4 +26,7 @@ type Credentials struct {
 	JwtSecret  string `envconfig:"JWT_SECRET" json:"JWT_SECRET"`
 
 	MessagesProviders string `envconfig:"MESSAGES_PROVIDERS" json:"MESSAGES_PROVIDERS"`
+
+	MapsProviderUserName string `envconfig:"MAPS_PROVIDER_USER_NAME" json:"MAPS_PROVIDER_USER_NAME"`
+	MapsProviderToken    string `envconfig:"MAPS_PROVIDER_TOKEN" json:"MAPS_PROVIDER_TOKEN"`
 }
