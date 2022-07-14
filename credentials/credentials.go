@@ -27,6 +27,6 @@ type Credentials struct {
 
 	MessagesProviders string `envconfig:"MESSAGES_PROVIDERS" json:"MESSAGES_PROVIDERS"`
 
-	MapaLoginName string `envconfig:"MAPA_LOGIN_NAME" json:"MAPA_LOGIN_NAME"`
-	MapaToken     string `envconfig:"MAPA_TOKEN" json:"MAPA_TOKEN"`
+	MapsProviderUserName string `envconfig:"MAPS_PROVIDER_USER_NAME" json:"MAPS_PROVIDER_USER_NAME"`
+	MapsProviderToken    string `envconfig:"MAPS_PROVIDER_TOKEN" json:"MAPS_PROVIDER_TOKEN"`
 }
