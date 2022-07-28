@@ -9,39 +9,39 @@ type Value interface {
 	// IsSet will tell if this key really exists in the configuration
 	IsSet() bool
 	// Raw returns an interface{}. For a specific type value use a corresponding method.
-	Raw() (interface{},error)
+	Raw() (interface{}, error)
 	// Bool returns the value associated with the key as a boolean.
-	Bool() (bool,error)
+	Bool() (bool, error)
 	// Int returns the value associated with the key as an integer.
-	Int() (int,error)
+	Int() (int, error)
 	// Int32 returns the value associated with the key as an integer.
-	Int32() (int32,error)
+	Int32() (int32, error)
 	// Int64 returns the value associated with the key as an integer.
-	Int64() (int64,error)
+	Int64() (int64, error)
 	// Uint returns the value associated with the key as an unsigned integer.
-	Uint() (uint,error)
+	Uint() (uint, error)
 	// Uint32 returns the value associated with the key as an unsigned integer.
-	Uint32() (uint32,error)
+	Uint32() (uint32, error)
 	// Uint64 returns the value associated with the key as an unsigned integer.
-	Uint64() (uint64,error)
+	Uint64() (uint64, error)
 	// Float64 returns the value associated with the key as a float64.
-	Float64() (float64,error)
+	Float64() (float64, error)
 	// Time returns the value associated with the key as time.
-	Time() (time.Time,error)
+	Time() (time.Time, error)
 	// Duration returns the value associated with the key as a duration.
-	Duration() (time.Duration,error)
+	Duration() (time.Duration, error)
 	// String returns the value associated with the key as a string.
-	String() (string,error)
+	String() (string, error)
 	// IntSlice returns the value associated with the key as a slice of int values.
-	IntSlice() ([]int,error)
+	IntSlice() ([]int, error)
 	// StringSlice returns the value associated with the key as a slice of strings.
-	StringSlice() ([]string,error)
+	StringSlice() ([]string, error)
 	// StringMap returns the value associated with the key as a map of interfaces.
-	StringMap() (map[string]interface{},error)
+	StringMap() (map[string]interface{}, error)
 	// StringMapString returns the value associated with the key as a map of strings.
-	StringMapString() (map[string]string,error)
+	StringMapString() (map[string]string, error)
 	// StringMapStringSlice returns the value associated with the key as a map to a slice of strings.
-	StringMapStringSlice() (map[string][]string,error)
+	StringMapStringSlice() (map[string][]string, error)
 	// Unmarshal tries to unmarshal it to a 'result'. 'result' field must be a pointer.
 	//
 	// It heavy depends on what library is used to provide Config. For example Viper uses 'mapstructure' for that
@@ -64,6 +64,7 @@ type Config interface {
 	Get(key string) Value
 	// Implementation returns the actual lib/struct that is responsible for the above logic
 	Implementation() interface{}
+	GetServiceName() (string, error)
 }
 
 // Builder defines configuration builder options
