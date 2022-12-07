@@ -35,6 +35,17 @@ func (v *confgetterWrapper) Implementation() interface{} {
 	return v.instance
 }
 
+func (v *confgetterWrapper) IsDebug(action string, flag bool) (bool, error) {
+	// TODO: add action map to follow/allow debug actions(=flows)
+	if !flag {
+		return false, nil
+	} else if env, err := v.Get(consts.HeilaEnv).String(); err != nil {
+		return false, err
+	} else {
+		return env != consts.EnvProd, nil
+	}
+}
+
 type valueWrapper struct {
 	key string
 	*confgetterWrapper

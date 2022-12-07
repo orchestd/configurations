@@ -2,6 +2,8 @@ module bitbucket.org/HeilaSystems/configurations
 
 go 1.14
 
+replace bitbucket.org/HeilaSystems/sharedlib v0.9.0 => ../sharedlib
+
 require (
 	bitbucket.org/HeilaSystems/sharedlib v0.9.0
 	cloud.google.com/go v0.65.0
