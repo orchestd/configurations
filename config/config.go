@@ -65,7 +65,7 @@ type Config interface {
 	// Implementation returns the actual lib/struct that is responsible for the above logic
 	Implementation() interface{}
 	GetServiceName() (string, error)
-	IsDebug() (bool, error)
+	IsDebug(action string, flag bool) (bool, error)
 }
 
 // Builder defines configuration builder options
