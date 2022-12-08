@@ -35,9 +35,9 @@ func (v *confgetterWrapper) Implementation() interface{} {
 	return v.instance
 }
 
-func (v *confgetterWrapper) IsDebug(action string, flag bool) (bool, error) {
+func (v *confgetterWrapper) ShouldRunDebug(action string, debug bool) (bool, error) {
 	// TODO: add action map to follow/allow debug actions(=flows)
-	if !flag {
+	if !debug {
 		return false, nil
 	} else if env, err := v.Get(consts.HeilaEnv).String(); err != nil {
 		return false, err
