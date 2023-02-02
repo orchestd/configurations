@@ -1,8 +1,8 @@
 package enviromentVariables
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/config"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
+	"github.com/orchestd/configurations/config"
+	"github.com/orchestd/configurations/config/confgetter/utils"
 	"os"
 	"strings"
 )

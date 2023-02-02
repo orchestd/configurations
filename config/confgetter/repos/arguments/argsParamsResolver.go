@@ -1,8 +1,8 @@
- package arguments
+package arguments
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/config"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
+	"github.com/orchestd/configurations/confgetter/utils"
+	"github.com/orchestd/configurations/config"
 	"os"
 	"strings"
 )
@@ -20,7 +20,7 @@ func (e *argsParamsResolver) ResolveParams() config.ConfParams {
 	return utils.MapToLowercaseMapToLowercase(e.params)
 }
 
-func (e *argsParamsResolver) resolveFromOsArgs()  {
+func (e *argsParamsResolver) resolveFromOsArgs() {
 	envlist := os.Args
 	for _, element := range envlist {
 		variable := strings.Split(element, "=")

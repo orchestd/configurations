@@ -1,11 +1,11 @@
 package secretManager
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/credentials"
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/orchestd/configurations/credentials"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 	secretmanagerpb "google.golang.org/genproto/googleapis/cloud/secretmanager/v1"
@@ -38,7 +38,7 @@ func NewCredentialsFromSecretManager(projectId, version, secretName string) (cre
 			return err
 		}
 		err = json.Unmarshal([]byte(scrt), &credsValuesMap)
-		if err != nil{
+		if err != nil {
 			return err
 		}
 		return nil
@@ -48,9 +48,9 @@ func NewCredentialsFromSecretManager(projectId, version, secretName string) (cre
 		return nil, err
 	}
 
-	if credsJson  , err := json.Marshal(credsValuesMap);err != nil {
+	if credsJson, err := json.Marshal(credsValuesMap); err != nil {
 		return nil, err
-	}else if err := json.Unmarshal(credsJson , &creds);err != nil {
+	} else if err := json.Unmarshal(credsJson, &creds); err != nil {
 		return nil, err
 	}
 

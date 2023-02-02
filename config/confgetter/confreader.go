@@ -1,11 +1,11 @@
 package confgetter
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/config"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/arguments"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/enviromentVariables"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/repos/files"
 	"fmt"
+	"github.com/orchestd/configurations/config"
+	"github.com/orchestd/configurations/config/confgetter/repos/arguments"
+	"github.com/orchestd/configurations/config/confgetter/repos/enviromentVariables"
+	"github.com/orchestd/configurations/config/confgetter/repos/files"
 	"reflect"
 	"strings"
 )
@@ -84,13 +84,13 @@ func CollectUnresolvedParams(val reflect.Value, params config.ConfParams, confMa
 		var skip bool
 		if keyNameArr := strings.Split(keyName, ","); len(keyNameArr) > 1 {
 			keyName = keyNameArr[0]
-			if len(keyNameArr)>= 2 && keyNameArr[1] == "omitempty"  {
+			if len(keyNameArr) >= 2 && keyNameArr[1] == "omitempty" {
 				skip = true
 			}
 
 		}
 		if val, ok := params[keyName]; !ok {
-			if !skip{
+			if !skip {
 				unsolvedParams = append(unsolvedParams, keyName)
 			}
 		} else {

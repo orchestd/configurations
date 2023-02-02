@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/config"
+	"github.com/orchestd/configurations/config"
 	"strings"
 )
 

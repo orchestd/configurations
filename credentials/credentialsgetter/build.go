@@ -1,11 +1,11 @@
 package credentialsgetter
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/credentials"
-	"bitbucket.org/HeilaSystems/configurations/credentials/credentialsgetter/repos/enviromentVariables"
-	"bitbucket.org/HeilaSystems/configurations/credentials/credentialsgetter/repos/secretManager"
 	"container/list"
 	"fmt"
+	"github.com/orchestd/configurations/credentials"
+	"github.com/orchestd/configurations/credentials/credentialsgetter/repos/enviromentVariables"
+	"github.com/orchestd/configurations/credentials/credentialsgetter/repos/secretManager"
 )
 
 type credentialsConfig struct {

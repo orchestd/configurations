@@ -1,10 +1,10 @@
 package files
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/config"
-	"bitbucket.org/HeilaSystems/configurations/config/confgetter/utils"
 	"encoding/json"
 	"fmt"
+	"github.com/orchestd/configurations/config"
+	"github.com/orchestd/configurations/config/confgetter/utils"
 	"os"
 	"path/filepath"
 	"strings"
@@ -52,7 +52,7 @@ func (resolver *ConfFileParamsResolver) resolveFromFile(filePath string) bool {
 		}
 		return true
 	}
-	fmt.Printf("conf file %s Not Found \n",filePath)
+	fmt.Printf("conf file %s Not Found \n", filePath)
 	return false
 }
 func GetExecutableDir() (error, string) {

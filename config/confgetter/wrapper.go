@@ -1,10 +1,10 @@
 package confgetter
 
 import (
-	"bitbucket.org/HeilaSystems/configurations/config"
-	"bitbucket.org/HeilaSystems/sharedlib/consts"
 	"encoding/json"
 	"fmt"
+	"github.com/orchestd/configurations/config"
+	"github.com/orchestd/sharedlib/consts"
 	"github.com/spf13/cast"
 	"strings"
 	"time"
