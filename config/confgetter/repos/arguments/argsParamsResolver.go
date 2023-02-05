@@ -1,8 +1,8 @@
 package arguments
 
 import (
-	"github.com/orchestd/configurations/confgetter/utils"
 	"github.com/orchestd/configurations/config"
+	"github.com/orchestd/configurations/config/confgetter/utils"
 	"os"
 	"strings"
 )
