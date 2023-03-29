@@ -32,4 +32,7 @@ type Credentials struct {
 
 	CreditCardServiceUserName string `envconfig:"CREDIT_CARD_SERVICE_USER_NAME" json:"CREDIT_CARD_SERVICE_USER_NAME"`
 	CreditCardServiceUserPw   string `envconfig:"CREDIT_CARD_SERVICE_USER_PW" json:"CREDIT_CARD_SERVICE_USER_PW"`
+
+	ApplePayCert    string `envconfig:"APPLE_PAY_CERT" json:"APPLE_PAY_CERT"`
+	ApplePayCertKey string `envconfig:"APPLE_PAY_CERT_KEY" json:"APPLE_PAY_CERT_KEY"`
 }
