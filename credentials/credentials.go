@@ -1,5 +1,10 @@
 package credentials
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type Builder interface {
 	UseGcpSecretManager(projectId string) Builder
 	SetSecretManagerVersion(version string) Builder
@@ -33,6 +38,17 @@ type Credentials struct {
 	CreditCardServiceUserName string `envconfig:"CREDIT_CARD_SERVICE_USER_NAME" json:"CREDIT_CARD_SERVICE_USER_NAME"`
 	CreditCardServiceUserPw   string `envconfig:"CREDIT_CARD_SERVICE_USER_PW" json:"CREDIT_CARD_SERVICE_USER_PW"`
 
-	ApplePayCert    string `envconfig:"APPLE_PAY_CERT" json:"APPLE_PAY_CERT"`
-	ApplePayCertKey string `envconfig:"APPLE_PAY_CERT_KEY" json:"APPLE_PAY_CERT_KEY"`
+	PaymentProviders map[string]json.RawMessage `envconfig:"PAYMENT_PROVIDERS" json:"PAYMENT_PROVIDERS"`
+}
+
+func (cr Credentials) GetPaymentProvider(name string, provider interface{}) error {
+	providerJSON, ok := cr.PaymentProviders[name]
+	if !ok {
+		return fmt.Errorf("payment provider %s not found in credentials PaymentProviders", name)
+	}
+	err := json.Unmarshal(providerJSON, provider)
+	if err != nil {
+		return fmt.Errorf("can't unmarshal payment provider %s. error: %v", name, err)
+	}
+	return nil
 }
