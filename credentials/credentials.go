@@ -38,15 +38,21 @@ type Credentials struct {
 	CreditCardServiceUserName string `envconfig:"CREDIT_CARD_SERVICE_USER_NAME" json:"CREDIT_CARD_SERVICE_USER_NAME"`
 	CreditCardServiceUserPw   string `envconfig:"CREDIT_CARD_SERVICE_USER_PW" json:"CREDIT_CARD_SERVICE_USER_PW"`
 
-	PaymentProviders map[string]json.RawMessage `envconfig:"PAYMENT_PROVIDERS" json:"PAYMENT_PROVIDERS"`
+	PaymentProviders string `envconfig:"PAYMENT_PROVIDERS" json:"PAYMENT_PROVIDERS"`
 }
 
 func (cr Credentials) GetPaymentProvider(name string, provider interface{}) error {
-	providerJSON, ok := cr.PaymentProviders[name]
+	paymentProviders := map[string]json.RawMessage{}
+	err := json.Unmarshal([]byte(cr.PaymentProviders), &paymentProviders)
+	if err != nil {
+		return fmt.Errorf("can't unmarshal paymentProviders. error: %v", err)
+	}
+
+	providerJSON, ok := paymentProviders[name]
 	if !ok {
 		return fmt.Errorf("payment provider %s not found in credentials PaymentProviders", name)
 	}
-	err := json.Unmarshal(providerJSON, provider)
+	err = json.Unmarshal(providerJSON, provider)
 	if err != nil {
 		return fmt.Errorf("can't unmarshal payment provider %s. error: %v", name, err)
 	}
