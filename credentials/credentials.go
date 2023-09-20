@@ -40,7 +40,7 @@ type Credentials struct {
 
 	PaymentProviders string `envconfig:"PAYMENT_PROVIDERS" json:"PAYMENT_PROVIDERS"`
 
-	EnablePprofPw bool `envconfig:"ENABLE_PPROF_PW" json:"ENABLE_PPROF_PW"`
+	EnablePprofPw string `envconfig:"ENABLE_PPROF_PW" json:"ENABLE_PPROF_PW"`
 }
 
 func (cr Credentials) GetPaymentProvider(name string, provider interface{}) error {
