@@ -44,6 +44,7 @@ type Credentials struct {
 	PaymentProviders string `envconfig:"PAYMENT_PROVIDERS" json:"PAYMENT_PROVIDERS"`
 
 	EnablePprofPw string `envconfig:"ENABLE_PPROF_PW" json:"ENABLE_PPROF_PW"`
+	RecaptchaKey  string `envconfig:"RECAPTCHA_KEY" json:"RECAPTCHA_KEY"`
 }
 
 func (cr Credentials) GetPaymentProvider(name string, provider interface{}) error {
