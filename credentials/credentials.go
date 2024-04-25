@@ -45,6 +45,9 @@ type Credentials struct {
 
 	EnablePprofPw string `envconfig:"ENABLE_PPROF_PW" json:"ENABLE_PPROF_PW"`
 	RecaptchaKey  string `envconfig:"RECAPTCHA_KEY" json:"RECAPTCHA_KEY"`
+
+	TenBisUserName string `envconfig:"TEN_BIS_USER_NAME" json:"TEN_BIS_USER_NAME"`
+	TenBisUserPw   string `envconfig:"TEN_BIS_USER_PW" json:"TEN_BIS_USER_PW"`
 }
 
 func (cr Credentials) GetPaymentProvider(name string, provider interface{}) error {
