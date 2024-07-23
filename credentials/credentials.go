@@ -24,6 +24,8 @@ type Credentials struct {
 	SqlUserName string `envconfig:"SQL_USER_NAME" json:"SQL_USER_NAME"`
 	SqlUserPw   string `envconfig:"SQL_USER_PW" json:"SQL_USER_PW"`
 
+	NatsConnections string `envconfig:"NATS_CONNECTIONS" json:"NATS_CONNECTIONS"`
+
 	NatsUser string `envconfig:"NATS_USER" json:"NATS_USER"`
 	NatsPw   string `envconfig:"NATS_PW" json:"NATS_PW"`
 
@@ -63,4 +65,14 @@ func (cr Credentials) GetPaymentProvider(name string, provider interface{}) erro
 		return fmt.Errorf("can't unmarshal payment provider %s. error: %v", name, err)
 	}
 	return nil
+}
+
+func (cr Credentials) GetNatsServerConnections(servers interface{}) error {
+	if cr.NatsConnections == "" {
+		return fmt.Errorf("doesn't have value in credentials.NatsConnections")
+	} else if err := json.Unmarshal([]byte(cr.NatsConnections), servers); err != nil {
+		return fmt.Errorf("cannot unmashal credentials.NatsConnections. %w", err)
+	} else {
+		return nil
+	}
 }
