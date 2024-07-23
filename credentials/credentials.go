@@ -71,7 +71,7 @@ func (cr Credentials) GetNatsServerConnections(servers interface{}) error {
 	if cr.NatsConnections == "" {
 		return fmt.Errorf("doesn't have value in credentials.NatsConnections")
 	} else if err := json.Unmarshal([]byte(cr.NatsConnections), servers); err != nil {
-		return fmt.Errorf("cannot unmashal credentials.NatsConnections. %w", err)
+		return fmt.Errorf("cannot unmarshal credentials.NatsConnections. %w", err)
 	} else {
 		return nil
 	}
