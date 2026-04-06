@@ -30,6 +30,8 @@ type Credentials struct {
 	NatsJWT  string `envconfig:"NATS_JWT" json:"NATS_JWT"`
 	NatsSeed string `envconfig:"NATS_SEED" json:"NATS_SEED"`
 
+	NatsJwtSignatureSeed string `envconfig:"NATS_JWT_SIGNATURE_SEED" json:"NATS_JWT_SIGNATURE_SEED"`
+
 	EncryptKey string `envconfig:"ENCRYPT_KEY" json:"ENCRYPT_KEY"`
 	JwtSecret  string `envconfig:"JWT_SECRET" json:"JWT_SECRET"`
 
