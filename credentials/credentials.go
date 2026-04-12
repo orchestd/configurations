@@ -24,8 +24,8 @@ type Credentials struct {
 	SqlUserName string `envconfig:"SQL_USER_NAME" json:"SQL_USER_NAME"`
 	SqlUserPw   string `envconfig:"SQL_USER_PW" json:"SQL_USER_PW"`
 
-	SqlUserNameReadOnly string `envconfig:"SQL_USER_NAME" json:"SQL_USER_NAME_READ_ONLY"`
-	SqlUserPwReadOnly   string `envconfig:"SQL_USER_PW" json:"SQL_USER_PW_READ_ONLY"`
+	SqlReadOnlyUserName string `envconfig:"SQL_READ_ONLY_USER_NAME" json:"SQL_READ_ONLY_USER_NAME"`
+	SqlReadOnlyUserPw   string `envconfig:"SQL_READ_ONLY_USER_PW" json:"SQL_READ_ONLY_USER_PW"`
 
 	NatsUser string `envconfig:"NATS_USER" json:"NATS_USER"`
 	NatsPw   string `envconfig:"NATS_PW" json:"NATS_PW"`
