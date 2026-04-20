@@ -51,6 +51,8 @@ type Credentials struct {
 	EnablePprofPw string `envconfig:"ENABLE_PPROF_PW" json:"ENABLE_PPROF_PW"`
 
 	GoogleApiKey     string `envconfig:"GOOGLE_API_KEY" json:"GOOGLE_API_KEY"`
+	GoogleMapsApiKey string `envconfig:"GOOGLE_MAPS_API_KEY" json:"GOOGLE_MAPS_API_KEY"`
+
 	RecaptchaSiteKey string `envconfig:"RECAPTCHA_SITE_KEY" json:"RECAPTCHA_SITE_KEY"`
 
 	OtherProviders string `envconfig:"OTHER_PROVIDERS" json:"OTHER_PROVIDERS"`
