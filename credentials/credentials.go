@@ -27,12 +27,6 @@ type Credentials struct {
 	SqlReadOnlyUserName string `envconfig:"SQL_READ_ONLY_USER_NAME" json:"SQL_READ_ONLY_USER_NAME"`
 	SqlReadOnlyUserPw   string `envconfig:"SQL_READ_ONLY_USER_PW" json:"SQL_READ_ONLY_USER_PW"`
 
-	NatsUser string `envconfig:"NATS_USER" json:"NATS_USER"`
-	NatsPw   string `envconfig:"NATS_PW" json:"NATS_PW"`
-
-	NatsJWT  string `envconfig:"NATS_JWT" json:"NATS_JWT"`
-	NatsSeed string `envconfig:"NATS_SEED" json:"NATS_SEED"`
-
 	NatsJwtSignatureSeed string `envconfig:"NATS_JWT_SIGNATURE_SEED" json:"NATS_JWT_SIGNATURE_SEED"`
 
 	EncryptKey string `envconfig:"ENCRYPT_KEY" json:"ENCRYPT_KEY"`
@@ -48,12 +42,23 @@ type Credentials struct {
 
 	PaymentProviders string `envconfig:"PAYMENT_PROVIDERS" json:"PAYMENT_PROVIDERS"`
 
+	NatsClients string `envconfig:"NATS_CLIENTS" json:"NATS_CLIENTS"`
+
 	EnablePprofPw string `envconfig:"ENABLE_PPROF_PW" json:"ENABLE_PPROF_PW"`
 
 	GoogleApiKey     string `envconfig:"GOOGLE_API_KEY" json:"GOOGLE_API_KEY"`
 	RecaptchaSiteKey string `envconfig:"RECAPTCHA_SITE_KEY" json:"RECAPTCHA_SITE_KEY"`
 
 	OtherProviders string `envconfig:"OTHER_PROVIDERS" json:"OTHER_PROVIDERS"`
+}
+
+type NatsCredentials struct {
+	// Type support "be" or "fe", determine which URL will be used for connection
+	Type     string `json:"type"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	JWT      string `json:"jwt"`
+	Seed     string `json:"seed"`
 }
 
 func (cr Credentials) GetPaymentProvider(name string, provider interface{}) error {
@@ -70,6 +75,30 @@ func (cr Credentials) GetPaymentProvider(name string, provider interface{}) erro
 	err = json.Unmarshal(providerJSON, provider)
 	if err != nil {
 		return fmt.Errorf("can't unmarshal payment provider %s. error: %v", name, err)
+	}
+	return nil
+}
+
+func (cr Credentials) GetNatsCredentials(key string) (NatsCredentials, error) {
+	var res NatsCredentials
+	err := getJSON("NATS_CLIENTS", cr.NatsClients, key, &res)
+	return res, err
+}
+
+func getJSON(name, stringifyObj, key string, target interface{}) error {
+	m := map[string]json.RawMessage{}
+	err := json.Unmarshal([]byte(stringifyObj), &m)
+	if err != nil {
+		return fmt.Errorf("can't unmarshal %s. error: %v", name, err)
+	}
+
+	obj, ok := m[key]
+	if !ok {
+		return fmt.Errorf("key %s not found in credentials %s", key, name)
+	}
+	err = json.Unmarshal(obj, target)
+	if err != nil {
+		return fmt.Errorf("can't unmarshal obj %s for key %s to type %T. error: %v", name, key, target, err)
 	}
 	return nil
 }
