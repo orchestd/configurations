@@ -79,10 +79,20 @@ func (cr Credentials) GetPaymentProvider(name string, provider interface{}) erro
 	return nil
 }
 
-func (cr Credentials) GetNatsCredentials(key string) (NatsCredentials, error) {
-	var res NatsCredentials
-	err := getJSON("NATS_CLIENTS", cr.NatsClients, key, &res)
-	return res, err
+// example for NATS_CLIENTS structure:
+// { "service-id-1": { "be": NatsCredentials, "fe": NatsCredentials }, "service-id-2": { ... } }
+func (cr Credentials) GetServiceNatsCredentials(serviceId, key string) (NatsCredentials, error) {
+	var res map[string]NatsCredentials
+	err := getJSON("NATS_CLIENTS", cr.NatsClients, serviceId, &res)
+	if err != nil {
+		return NatsCredentials{}, err
+	}
+
+	creds, ok := res[key]
+	if !ok {
+		return creds, fmt.Errorf("did not found credentials for NATS_CLIENTS[%s][%s]", serviceId, key)
+	}
+	return creds, err
 }
 
 func getJSON(name, stringifyObj, key string, target interface{}) error {
