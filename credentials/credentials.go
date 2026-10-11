@@ -90,7 +90,7 @@ func (cr Credentials) GetServiceNatsCredentials(serviceId, key string) (NatsCred
 
 	creds, ok := res[key]
 	if !ok {
-		return creds, fmt.Errorf("did not found credentials for NATS_CLIENTS[%s][%s]", serviceId, key)
+		return creds, fmt.Errorf("credentials for NATS_CLIENTS[%s][%s] not found", serviceId, key)
 	}
 	return creds, err
 }
