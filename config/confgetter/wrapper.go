@@ -3,11 +3,12 @@ package confgetter
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/orchestd/configurations/config"
 	"github.com/orchestd/sharedlib/consts"
 	"github.com/spf13/cast"
-	"strings"
-	"time"
 )
 
 func NewConfgetterWrapper(instance map[string]interface{}) confgetterWrapper {
@@ -262,11 +263,21 @@ func (v *valueWrapper) Unmarshal(result interface{}) error {
 	if !ok {
 		return KeyNotFoundError(v.key)
 	}
-	if byteArray, err := json.Marshal(val); err != nil {
-		return err
-	} else {
-		return json.Unmarshal(byteArray, &result)
+
+	var byteArray []byte
+	var err error
+
+	switch fmtVal := val.(type) {
+	case string:
+		byteArray = []byte(fmtVal)
+	default:
+		byteArray, err = json.Marshal(val)
+		if err != nil {
+			return err
+		}
 	}
+
+	return json.Unmarshal(byteArray, &result)
 }
 
 func CastingError(err error, key string, rawVal interface{}, confType string) error {
